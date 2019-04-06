@@ -19,7 +19,8 @@ class AgentsStates:
             '/spencer/perception_internal/people_detection/rgbd_front_top/upper_body_detector/bounding_box_centres',
             PoseArray,self.peds_callback)
         self.clusters_pub = rospy.Publisher('cluster/output/clusters',Clusters,queue_size=1)
-
+        #publish goal 
+        self.goal_pub = rospy.Publisher('/JA01/move_base_simple/goal',PoseStamped,queue_size=1)
     def odom_callback(self,msg):
         pose = PoseStamped()
         pose.header.stamp = rospy.Time.now()
@@ -58,7 +59,12 @@ class AgentsStates:
                 peds_cluster.labels.append(i)
 
         self.clusters_pub.publish(peds_cluster)
-       
+        goal = PoseStamped()
+        goal.header.stamp = rospy.Time.now()
+        goal.header.frame_id = "map"
+        goal.pose.position.x = 5.0
+        goal.pose.position.y = 4.0
+        self.goal_pub.publish(goal) 
        
 if __name__ == '__main__':
     rospy.init_node('agents_states', anonymous=False)
