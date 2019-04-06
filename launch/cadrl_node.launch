@@ -6,7 +6,7 @@
         
         <!-- Publications -->
         <remap from="~other_vels" to="other_vels"/>
-        <remap from="~nn_cmd_vel" to="/mobile_base/commands/velocity"/>
+        <remap from="~nn_cmd_vel" to="/cmd_vel_mux/input/navi"/>
         <remap from="~pose_marker" to="pose_marker"/>
         <remap from="~path_marker" to="path_marker"/>
         <remap from="~goal_path_marker" to="goal_path_marker"/>
