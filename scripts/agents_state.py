@@ -27,7 +27,7 @@ class AgentsStates:
         self.clusters_pub = rospy.Publisher('cluster/output/clusters',Clusters,queue_size=1)
         #self.pub_agent_markers = rospy.Publisher('~agent_markers',MarkerArray,queue_size=1)
         #publish goal 
-        #self.goal_pub = rospy.Publisher('/JA01/move_base_simple/goal',PoseStamped,queue_size=1)
+        self.goal_pub = rospy.Publisher('move_base_simple/goal',PoseStamped,queue_size=1)
     def odom_callback(self,msg):
         pose = PoseStamped()
         pose.header.stamp = rospy.Time.now()
@@ -58,10 +58,11 @@ class AgentsStates:
         peds_cluster.min_points=[]
         peds_cluster.pointclouds=[]
         peds_cluster.velocities=[]
+        peds_cluster.num.data = int(len(peds_msg.detections))
         
         #markers = MarkerArray()
         
-        print(len(peds_msg.detections))
+        #print(len(peds_msg.detections))
         
         if len(peds_msg.detections) > 0 :
             for i in range(len(peds_msg.detections)):
@@ -104,14 +105,14 @@ class AgentsStates:
             self.clusters_pub.publish(peds_cluster)
             #self.pub_agent_markers.publish(markers)
 
-        '''
+        
         goal = PoseStamped()
         goal.header.stamp = rospy.Time.now()
         goal.header.frame_id = "map"
         goal.pose.position.x = 5.0
-        goal.pose.position.y = 4.0
+        goal.pose.position.y = 0.0
         self.goal_pub.publish(goal) 
-        '''
+        
        
 if __name__ == '__main__':
     rospy.init_node('agents_states', anonymous=False)
